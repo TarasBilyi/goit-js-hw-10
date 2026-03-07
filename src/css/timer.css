@@ -13,11 +13,21 @@
   line-height: 1.5;
   letter-spacing: 0.04em;
   color: #2e2f42;
-	transition: border-color 200ms ease-in;
+  transition: border-color 200ms ease-in;
+}
+
+.disable-input {
+  border-color: #808080;
+  color: #808080;
+}
+
+.date-input:hover {
+  border-color: #000;
 }
 
 .date-input:focus {
-	border-color: #4e75ff;
+  border-color: #4e75ff;
+  color: #000;
 }
 
 .start-btn {
