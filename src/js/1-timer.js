@@ -1,15 +1,14 @@
 import flatpickr from 'flatpickr';
 import iziToast from 'izitoast';
-import 'flatpickr/dist/flatpickr.min.css';
-import 'izitoast/dist/css/iziToast.min.css';
 
 const refs = {
-  dataInput: document.querySelector('.date-input'),
+  dataInput: document.querySelector('#datetime-picker'),
   startBtn: document.querySelector('[data-start]'),
+  days: document.querySelector('[data-days]'),
+  hours: document.querySelector('[data-hours]'),
+  minutes: document.querySelector('[data-minutes]'),
+  seconds: document.querySelector('[data-seconds]'),
 };
-
-refs.startBtn.disabled = true;
-refs.dataInput.classList.add('disable-input');
 
 let userSelectedDate = null;
 flatpickr('#datetime-picker', {
@@ -21,32 +20,21 @@ flatpickr('#datetime-picker', {
   onClose(selectedDates) {
     const selected = selectedDates[0];
 
-    if (!selected) {
-      refs.startBtn.disabled = true;
-      userSelectedDate = null;
-      return;
-    }
-
     if (selected > new Date()) {
       userSelectedDate = selected;
       refs.startBtn.disabled = false;
-      refs.dataInput.classList.remove('disable-input');
     } else {
+      userSelectedDate = null;
+      refs.startBtn.disabled = true;
       iziToast.error({
         title: 'Error',
         message: 'Please choose a date in the future',
         position: 'topRight',
+        timeout: 3000,
       });
-      refs.startBtn.disabled = true;
-      refs.dataInput.classList.add('disable-input');
-      userSelectedDate = null;
     }
   },
 });
-
-function addLeadingZero(value) {
-  return String(value).padStart(2, '0');
-}
 
 function convertMs(ms) {
   const second = 1000;
@@ -61,3 +49,36 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
+
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
+}
+
+refs.startBtn.addEventListener('click', () => {
+  const timerId = setInterval(() => {
+    const currentTime = new Date();
+    const timeDifference = userSelectedDate - currentTime;
+    const timeComponents = convertMs(timeDifference);
+
+    refs.days.textContent = addLeadingZero(timeComponents.days);
+    refs.hours.textContent = addLeadingZero(timeComponents.hours);
+    refs.minutes.textContent = addLeadingZero(timeComponents.minutes);
+    refs.seconds.textContent = addLeadingZero(timeComponents.seconds);
+
+    if (timeDifference >= 0) {
+      refs.startBtn.disabled = true;
+      refs.dataInput.disabled = true;
+    }
+
+    if (timeDifference <= 0) {
+      clearInterval(timerId);
+      refs.startBtn.disabled = false;
+      refs.dataInput.disabled = false;
+
+      refs.days.textContent = '00';
+      refs.hours.textContent = '00';
+      refs.minutes.textContent = '00';
+      refs.seconds.textContent = '00';
+    }
+  }, 1000);
+});

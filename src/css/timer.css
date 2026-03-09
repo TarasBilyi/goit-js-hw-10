@@ -1,11 +1,12 @@
 .set-time-wrap {
   display: flex;
   gap: 8px;
-  margin: 20px 0 32px;
+  margin-bottom: 32px;
 }
 
 .date-input {
   border: 1px solid #808080;
+  background-color: #fff;
   border-radius: 4px;
   width: 272px;
   height: 40px;
@@ -16,9 +17,10 @@
   transition: border-color 200ms ease-in;
 }
 
-.disable-input {
-  border-color: #808080;
+.date-input:disabled {
+  background-color: #fafafa;
   color: #808080;
+  border-color: #808080;
 }
 
 .date-input:hover {
@@ -74,4 +76,8 @@
   line-height: 1.5;
   color: #2e2f42;
   text-transform: uppercase;
+}
+
+.iziToast {
+  margin-top: 60px;
 }
