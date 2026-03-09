@@ -1,5 +1,7 @@
 import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const refs = {
   dataInput: document.querySelector('#datetime-picker'),
@@ -55,6 +57,9 @@ function addLeadingZero(value) {
 }
 
 refs.startBtn.addEventListener('click', () => {
+  refs.startBtn.disabled = true;
+  refs.dataInput.disabled = true;
+
   const timerId = setInterval(() => {
     const currentTime = new Date();
     const timeDifference = userSelectedDate - currentTime;
@@ -65,14 +70,8 @@ refs.startBtn.addEventListener('click', () => {
     refs.minutes.textContent = addLeadingZero(timeComponents.minutes);
     refs.seconds.textContent = addLeadingZero(timeComponents.seconds);
 
-    if (timeDifference >= 0) {
-      refs.startBtn.disabled = true;
-      refs.dataInput.disabled = true;
-    }
-
     if (timeDifference <= 0) {
       clearInterval(timerId);
-      refs.startBtn.disabled = false;
       refs.dataInput.disabled = false;
 
       refs.days.textContent = '00';

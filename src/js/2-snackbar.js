@@ -1,4 +1,5 @@
 import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const refs = {
   form: document.querySelector('.form'),
@@ -13,26 +14,24 @@ refs.form.addEventListener('submit', e => {
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
       if (selectedState.value === 'fulfilled') {
-        resolve(`Fulfilled promise in ${delay}ms`);
+        resolve(delay);
       } else {
-        reject(`Rejected promise in ${delay}ms`);
+        reject(delay);
       }
     }, delay);
   });
 
   promise
-    .then(value => {
+    .then(delay => {
       iziToast.success({
-        title: 'Success',
-        message: value,
+        message: `✅ Fulfilled promise in ${delay}ms`,
         position: 'topRight',
         timeout: 3000,
       });
     })
-    .catch(error => {
+    .catch(delay => {
       iziToast.error({
-        title: 'Error',
-        message: error,
+        message: `❌ Rejected promise in ${delay}ms`,
         position: 'topRight',
         timeout: 3000,
       });
