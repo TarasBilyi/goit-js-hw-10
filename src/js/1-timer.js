@@ -63,12 +63,6 @@ refs.startBtn.addEventListener('click', () => {
   const timerId = setInterval(() => {
     const currentTime = new Date();
     const timeDifference = userSelectedDate - currentTime;
-    const timeComponents = convertMs(timeDifference);
-
-    refs.days.textContent = addLeadingZero(timeComponents.days);
-    refs.hours.textContent = addLeadingZero(timeComponents.hours);
-    refs.minutes.textContent = addLeadingZero(timeComponents.minutes);
-    refs.seconds.textContent = addLeadingZero(timeComponents.seconds);
 
     if (timeDifference <= 0) {
       clearInterval(timerId);
@@ -78,6 +72,14 @@ refs.startBtn.addEventListener('click', () => {
       refs.hours.textContent = '00';
       refs.minutes.textContent = '00';
       refs.seconds.textContent = '00';
+      return;
     }
+
+    const timeComponents = convertMs(timeDifference);
+
+    refs.days.textContent = addLeadingZero(timeComponents.days);
+    refs.hours.textContent = addLeadingZero(timeComponents.hours);
+    refs.minutes.textContent = addLeadingZero(timeComponents.minutes);
+    refs.seconds.textContent = addLeadingZero(timeComponents.seconds);
   }, 1000);
 });
